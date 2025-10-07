@@ -1,3 +1,147 @@
-.titulo-home{
-align-content: center;
+/* --- Estilos Globais --- */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #772c19e3;
+  color: #111827;
 }
+
+/* --- Container Principal da Página --- */
+.home-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.home-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+  box-sizing: border-box;
+  flex-grow: 1;
+}
+
+/* --- Seção de Boas-Vindas --- */
+.welcome-section {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.welcome-section h2 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+.welcome-section p {
+  font-size: 20px;
+  color: #d4d4d4;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* --- Título das Seções --- */
+.section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  border-left: 4px solid #ffffff;
+  padding-left: 1rem;
+}
+
+
+/* --- Grid de Dicas de Leitura --- */
+.reading-tips-grid {
+  display: grid;
+  gap: 2.5rem;
+  grid-template-columns: 1fr;
+}
+
+/* --- Card do Livro --- */
+.book-card {
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.book-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 15px -3px rgba(2, 2, 2, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.book-card-image {
+  width: 100%;
+  height: 450px;
+  object-fit:fill;
+}
+
+.book-card-content {
+  padding: 1.5rem;
+}
+
+.book-card-content h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.book-card-author {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-bottom: 1rem;
+}
+
+.book-card-rating {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+/* --- Ícone de Estrela --- */
+.star-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #d1d5db; /* Cor da estrela vazia */
+}
+
+.star-icon.filled {
+  color: #f59e0b; /* Cor da estrela preenchida */
+}
+
+
+/* --- Rodapé --- */
+.footer {
+  background-color: #ffffff;
+  padding: 1.5rem;
+  text-align: center;
+  color: #6b7280;
+  border-top: 1px solid #e5e7eb;
+  margin-top: 4rem;
+}
+
+/* --- Media Queries para Responsividade --- */
+@media (min-width: 768px) {
+  .welcome-section h2 {
+    font-size: 3rem;
+  }
+  
+  .reading-tips-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .reading-tips-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+

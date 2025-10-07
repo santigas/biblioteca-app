@@ -1,4 +1,3 @@
-import React from 'react';
 import './header.css'; 
 
 const Header = () => {
@@ -9,10 +8,10 @@ const Header = () => {
       </div>
       <nav className="header-nav">
         <ul>
-          <li><a href="#home">Início</a></li>
+          <li><a href="#home">inicio</a></li>
           <li><a href="#sobre">Sobre</a></li>
           <li><a href="#servicos">Serviços</a></li>
-          <li><a href="#contato">Contato</a></li>
+          <li><a href="#cadastro">cadastro</a></li>
         </ul>
       </nav>
     </header>
