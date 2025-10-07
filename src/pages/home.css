@@ -1,4 +1,4 @@
-/* --- Estilos Globais --- */
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,7 +10,7 @@ body {
   color: #111827;
 }
 
-/* --- Container Principal da Página --- */
+
 .home-page {
   display: flex;
   flex-direction: column;
@@ -26,7 +26,7 @@ body {
   flex-grow: 1;
 }
 
-/* --- Seção de Boas-Vindas --- */
+
 .welcome-section {
   text-align: center;
   margin-bottom: 4rem;
@@ -45,7 +45,7 @@ body {
   margin: 0 auto;
 }
 
-/* --- Título das Seções --- */
+
 .section-title {
   font-size: 2rem;
   font-weight: 700;
@@ -55,30 +55,32 @@ body {
 }
 
 
-/* --- Grid de Dicas de Leitura --- */
+
 .reading-tips-grid {
-  display: grid;
-  gap: 2.5rem;
+  display: flex;
+  gap: 100px;
+  justify-content: center;
   grid-template-columns: 1fr;
 }
 
-/* --- Card do Livro --- */
-.book-card {
+
+.bookcard {
   background-color: #ffffff;
+  width: 100%;
   border-radius: 0.5rem;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   overflow: hidden;
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
-.book-card:hover {
+.bookcard:hover {
   transform: scale(1.05);
   box-shadow: 0 10px 15px -3px rgba(2, 2, 2, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 .book-card-image {
   width: 100%;
-  height: 450px;
+  height: 430px;
   object-fit:fill;
 }
 

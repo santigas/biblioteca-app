@@ -1,14 +1,18 @@
 export default function BookCard({ livro, onRemover }) {
-  return (
-    <div className="card mb-2">
-      <div className="card-body">
-        <h5 className="card-title">{livro.titulo}</h5>
-        <p className="card-text">Autor: {livro.autor}</p>
-        <p className="card-text">Gênero: {livro.genero}</p>
+  const imagemUrl = livro.imagem || "/placeholder.png"; 
 
-        <button className="delete-btn" onClick={onRemover}>
-          Excluir
-        </button>
+  return (
+    <div className="book-card">
+      <img
+        src={imagemUrl}
+        alt={`Capa do livro ${livro.titulo}`}
+        className="book-card-image"
+      />
+      <div className="book-card-content">
+        <h3>{livro.titulo}</h3>
+        <p className="book-card-author">por {livro.autor}</p>
+        <p className="book-card-genre">Gênero: {livro.genero}</p>
+        <button className="delete-btn" onClick={onRemover}>Excluir</button>
       </div>
     </div>
   );

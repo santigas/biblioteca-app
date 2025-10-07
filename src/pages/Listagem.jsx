@@ -11,26 +11,20 @@ export default function Listagem() {
   }, []);
 
   function removerLivro(index) {
-    const novosLivros = livros.filter((_, i) => i !== index);
-    setLivros(novosLivros);
-    localStorage.setItem("livros", JSON.stringify(novosLivros));
+    const novos = [...livros];
+    novos.splice(index, 1);
+    setLivros(novos);
+    localStorage.setItem("livros", JSON.stringify(novos));
   }
 
   return (
-    <main className="listagem-container">
-      <h2 className="titulo-principal">Lista de Livros</h2>
-      {livros.length === 0 ? (
-        <p>Nenhum livro cadastrado.</p>
-      ) : (
-        livros.map((livro, index) => (
-          <BookCard
-            key={index}
-            livro={livro}
-            onRemover={() => removerLivro(index)} // aqui passa a função
-          />
-        ))
-      )}
-    </main>
+    <div className="listagem-container">
+      <div className="listagem-grid">
+        {livros.map((livro, index) => (
+          <BookCard key={index} livro={livro} onRemover={() => removerLivro(index)} />
+        ))}
+      </div>
+    </div>
   );
 }
 

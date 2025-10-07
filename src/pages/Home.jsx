@@ -1,8 +1,8 @@
 import React from 'react';
 import "./home.css";
-// O componente Header seria importado de sua pasta de componentes.
 
-// --- Componente de Ícone de Estrela ---
+
+
 const StarIcon = ({ filled }) => (
   <svg
     className={`star-icon ${filled ? 'filled' : ''}`}
@@ -14,7 +14,7 @@ const StarIcon = ({ filled }) => (
   </svg>
 );
 
-// --- Dados das Dicas de Leitura ---
+
 const readingTips = [
   {
     id: 1,
@@ -45,7 +45,7 @@ const readingTips = [
 // --- Componente do Card de Livro ---
 const BookCard = ({ book }) => {
   return (
-    <div className="book-card">
+    <div className="bookcard">
       <img
         className="book-card-image"
         src={book.imageUrl}
