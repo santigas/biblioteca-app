@@ -1,7 +1,6 @@
 import React from 'react';
 import "./home.css";
 // O componente Header seria importado de sua pasta de componentes.
-import Header from "../components/header/Header";
 
 // --- Componente de Ícone de Estrela ---
 const StarIcon = ({ filled }) => (
@@ -27,19 +26,19 @@ const readingTips = [
   },
   {
     id: 2,
-    title: 'Kimetsu no Yaiba',
-    author: 'Koyoharu Gotouge',
+    title: 'Deixe de Ser Pobre',
+    author: 'Tiago Fonseca',
     rating: 5,
-    description: 'A história segue Tanjiro Kamado, que após perder sua família para demônios e ver sua irmã virar uma deles, busca uma cura para Nezuko e vingança.',
-    imageUrl: 'https://m.media-amazon.com/images/I/91YlzTkLWHL._UF1000,1000_QL80_.jpg',
+    description: 'Deixe de Ser Pobre é um guia de transformação pessoal e financeira, voltado a quem quer sair das dificuldades econômicas e conquistar sucesso com atitude e conhecimento.',
+    imageUrl: 'https://m.media-amazon.com/images/I/71qAGtcqCTL.jpg',
   },
   {
     id: 3,
-    title: 'Blue Lock',
-    author: 'Muneyuki Kaneshiro',
+    title: 'Harry Potter e a Pedra Filosofal',
+    author: 'J.K. Rowling',
     rating: 4,
-    description: 'Blue Lock é um anime e mangá de futebol que acompanha Yoichi Isagi e outros jovens atacantes em um treinamento intenso e competitivo criado para formar o melhor centroavante do mundo.',
-    imageUrl: 'https://i.ebayimg.com/images/g/84gAAOSwxMhi0tIO/s-l1200.jpg',
+    description: 'Harry Potter é um jovem bruxo órfão, famoso por sobreviver a Lord Voldemort, e protagoniza a série que mostra suas aventuras em Hogwarts e sua luta contra o bruxo das trevas.',
+    imageUrl: 'https://http2.mlstatic.com/D_NQ_NP_754630-MLU77444326845_072024-O.webp',
   },
 ];
 
@@ -70,7 +69,6 @@ const BookCard = ({ book }) => {
 export default function Home() {
   return (
     <div className="home-page">
-     <Header/>
       <main className="home-container">
         {/* Seção de Boas-Vindas */}
         <section className="welcome-section">
