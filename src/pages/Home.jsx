@@ -1,49 +1,70 @@
-import React from 'react';
+import React, { useState } from "react";
 import "./home.css";
-
-
-
-const StarIcon = ({ filled }) => (
-  <svg
-    className={`star-icon ${filled ? 'filled' : ''}`}
-    fill="currentColor"
-    viewBox="0 0 20 20"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-  </svg>
-);
-
 
 const readingTips = [
   {
     id: 1,
-    title: 'Chainsaw Man',
-    author: 'Tatsuki Fujimoto',
-    rating: 5,
-    description: 'A história segue Denji, um jovem pobre que se funde com Pochita e vira o Homem-Motosserra, caçando demônios para o governo',
-    imageUrl: 'https://m.media-amazon.com/images/I/81tadC4LSVL._UF1000,1000_QL80_.jpg',
+    title: "A Terra da Flor Azul",
+    author: "Frances Hodgson Burnett",
+    imageUrl: "https://m.media-amazon.com/images/I/81LtpDR0LZL._AC_UF1000,1000_QL80_.jpg",
   },
   {
     id: 2,
-    title: 'Deixe de Ser Pobre',
-    author: 'Tiago Fonseca',
-    rating: 5,
-    description: 'Deixe de Ser Pobre é um guia de transformação pessoal e financeira, voltado a quem quer sair das dificuldades econômicas e conquistar sucesso com atitude e conhecimento.',
-    imageUrl: 'https://m.media-amazon.com/images/I/71qAGtcqCTL.jpg',
+    title: "Harry Potter e a Pedra Filosofal",
+    author: "J.K. Rowling",
+    imageUrl: "https://http2.mlstatic.com/D_NQ_NP_754630-MLU77444326845_072024-O.webp",
   },
   {
     id: 3,
-    title: 'Harry Potter e a Pedra Filosofal',
-    author: 'J.K. Rowling',
-    rating: 4,
-    description: 'Harry Potter é um jovem bruxo órfão, famoso por sobreviver a Lord Voldemort, e protagoniza a série que mostra suas aventuras em Hogwarts e sua luta contra o bruxo das trevas.',
-    imageUrl: 'https://http2.mlstatic.com/D_NQ_NP_754630-MLU77444326845_072024-O.webp',
+    title: "O Hobbit",
+    author: "J.R.R. Tolkien",
+    imageUrl: "https://m.media-amazon.com/images/I/81t2CVWEsUL._AC_UF894,1000_QL80_.jpg",
+  },
+  {
+    id: 4,
+    title: "O Pequeno Príncipe",
+    author: "Antoine de Saint-Exupéry",
+    imageUrl: "https://m.media-amazon.com/images/I/71OZNgRJ3hL.jpg",
+  },
+  {
+    id: 5,
+    title: "Orgulho e Preconceito",
+    author: "Jane Austen",
+    imageUrl: "https://covers.openlibrary.org/b/id/11121638-L.jpg",
+  },
+  {
+    id: 6,
+    title: "Dom Quixote",
+    author: "Miguel de Cervantes",
+    imageUrl: "https://covers.openlibrary.org/b/id/8101356-L.jpg",
+  },
+{
+    id: 7,
+    title: "O Hobbit",
+    author: "J.R.R. Tolkien",
+    imageUrl: "https://covers.openlibrary.org/b/id/6979861-L.jpg",
+  },
+  {
+    id: 8,
+    title: "O Pequeno Príncipe",
+    author: "Antoine de Saint-Exupéry",
+    imageUrl: "https://covers.openlibrary.org/b/id/9251996-L.jpg",
+  },
+  {
+    id: 9,
+    title: "Orgulho e Preconceito",
+    author: "Jane Austen",
+    imageUrl: "https://covers.openlibrary.org/b/id/11121638-L.jpg",
+  },
+  {
+    id: 10,
+    title: "Dom Quixote",
+    author: "Miguel de Cervantes",
+    imageUrl: "https://covers.openlibrary.org/b/id/8101356-L.jpg",
   },
 ];
 
-// --- Componente do Card de Livro ---
-const BookCard = ({ book }) => {
+const BookCard = ({ book, onSave, onRead, saved, read }) => {
   return (
     <div className="bookcard">
       <img
@@ -53,45 +74,93 @@ const BookCard = ({ book }) => {
       />
       <div className="book-card-content">
         <h3>{book.title}</h3>
-        <p className="book-card-author">por {book.author}</p>
-        <div className="book-card-rating">
-            {[...Array(5)].map((_, i) => (
-              <StarIcon key={i} filled={i < book.rating} />
-            ))}
+        <p>{book.author}</p>
+
+        <div className="book-actions">
+          <button
+            className={`save-btn ${saved ? "active" : ""}`}
+            onClick={() => onSave(book.id)}
+          >
+            {saved ? "✔️ Salvo" : "🔖 Ler depois"}
+          </button>
+
+          <button
+            className={`read-btn ${read ? "active" : ""}`}
+            onClick={() => onRead(book.id)}
+          >
+            {read ? "📘 Lido" : "✅ Já li"}
+          </button>
         </div>
-        <p>{book.description}</p>
       </div>
     </div>
   );
 };
 
-// --- Componente Principal da Página Home ---
 export default function Home() {
+  const [savedBooks, setSavedBooks] = useState([]);
+  const [readBooks, setReadBooks] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const toggleSave = (id) => {
+    setSavedBooks((prev) =>
+      prev.includes(id) ? prev.filter((b) => b !== id) : [...prev, id]
+    );
+  };
+
+  const toggleRead = (id) => {
+    setReadBooks((prev) =>
+      prev.includes(id) ? prev.filter((b) => b !== id) : [...prev, id]
+    );
+  };
+
+  const filteredBooks = readingTips.filter((book) =>
+    book.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="home-page">
       <main className="home-container">
-        {/* Seção de Boas-Vindas */}
         <section className="welcome-section">
-          <h2>Bem-vindo ao seu universo literário!</h2>
           <p>
-            Aqui você pode organizar suas leituras, descobrir novos títulos e compartilhar suas paixões com outros leitores. Explore nossas dicas e comece uma nova aventura hoje mesmo.
+            Salve os livros que deseja ler e marque os que já terminou.
           </p>
         </section>
 
-        {/* Seção de Dicas de Leitura */}
-        <section>
-          <h2 className="section-title">Dicas de Leitura para Você</h2>
-          <div className="reading-tips-grid">
-            {readingTips.map(book => (
-              <BookCard key={book.id} book={book} />
-            ))}
-          </div>
-        </section>
+        <div className="content-layout">
+          <section className="books-section">
+            <h2 className="section-title">Sua Estante</h2>
+
+            <div className="search-bar">
+              <input
+                type="text"
+                placeholder="Pesquisar livros..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+
+            <div className="reading-tips-grid">
+              {filteredBooks.length > 0 ? (
+                filteredBooks.map((book) => (
+                  <BookCard
+                    key={book.id}
+                    book={book}
+                    onSave={toggleSave}
+                    onRead={toggleRead}
+                    saved={savedBooks.includes(book.id)}
+                    read={readBooks.includes(book.id)}
+                  />
+                ))
+              ) : (
+                <p className="no-results">Nenhum livro encontrado.</p>
+              )}
+            </div>
+          </section>
+        </div>
       </main>
 
-      {/* Seção de Rodapé */}
       <footer className="footer">
-          <p>&copy; 2025 Clube do Livro. Todos os direitos reservados.</p>
+        <p>&copy; 2025 Clube do Livro. Todos os direitos reservados.</p>
       </footer>
     </div>
   );

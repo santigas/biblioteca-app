@@ -1,149 +1,138 @@
-
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: #772c19e3;
-  color: #111827;
-}
-
-
-.home-page {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
 .home-container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 3rem 1.5rem;
-  box-sizing: border-box;
-  flex-grow: 1;
+  background-color: #f5f2eb; 
 }
-
-
-.welcome-section {
-  text-align: center;
-  margin-bottom: 4rem;
-}
-
-.welcome-section h2 {
-  font-size: 2.5rem;
-  font-weight: 800;
-  margin-bottom: 1rem;
-}
-
-.welcome-section p {
-  font-size: 20px;
-  color: #d4d4d4;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-
-.section-title {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 2rem;
-  border-left: 4px solid #ffffff;
-  padding-left: 1rem;
-}
-
-
-
 .reading-tips-grid {
   display: flex;
-  gap: 100px;
-  justify-content: center;
-  grid-template-columns: 1fr;
+  flex-wrap: wrap;            
+  justify-content: center;     
+  gap: 1.2rem;                 
+  max-width: 1100px;           
+  margin: 0 auto;               
 }
 
-
 .bookcard {
-  background-color: #ffffff;
-  width: 100%;
+  width: 180px; 
   border-radius: 0.5rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  overflow: hidden;
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  text-align: center;
+  padding: 0.8rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .bookcard:hover {
-  transform: scale(1.05);
-  box-shadow: 0 10px 15px -3px rgba(2, 2, 2, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transform: translateY(-4px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .book-card-image {
   width: 100%;
-  height: 430px;
-  object-fit:fill;
+  height: 220px; 
+  object-fit: cover;
+  border-radius: 0.4rem;
+  margin-bottom: 0.6rem;
 }
 
 .book-card-content {
-  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .book-card-content h3 {
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin-top: 0;
-  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  color: #222;
+  margin: 0.2rem 0;
+  font-weight: 600;
 }
 
-.book-card-author {
-  font-size: 0.875rem;
-  color: #6b7280;
-  margin-bottom: 1rem;
+.book-card-content p {
+  font-size: 0.8rem;
+  color: #555;
+  margin: 0.2rem 0;
 }
-
-.book-card-rating {
+.search-bar {
   display: flex;
-  align-items: center;
-  margin-bottom: 1rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
 }
 
-/* --- Ícone de Estrela --- */
-.star-icon {
-  width: 1.25rem;
-  height: 1.25rem;
-  color: #d1d5db; /* Cor da estrela vazia */
+.search-bar input {
+  width: 100%;
+  max-width: 400px;
+  padding: 0.9rem 1rem;
+  border: 1.5px solid #2c3e50;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+  background-color: #fff; 
+  color: #000000; 
 }
 
-.star-icon.filled {
-  color: #f59e0b; /* Cor da estrela preenchida */
+.search-bar input:focus {
+  border-color: #00a676;
 }
 
-
-/* --- Rodapé --- */
-.footer {
-  background-color: #ffffff;
-  padding: 1.5rem;
+.no-results {
   text-align: center;
-  color: #6b7280;
-  border-top: 1px solid #e5e7eb;
-  margin-top: 4rem;
+  color: #c92525;
+  font-style: italic;
+  margin-top: 1rem;
 }
 
-/* --- Media Queries para Responsividade --- */
-@media (min-width: 768px) {
-  .welcome-section h2 {
-    font-size: 3rem;
-  }
-  
-  .reading-tips-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.book-actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 0.6rem;
 }
 
-@media (min-width: 1024px) {
-  .reading-tips-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
+.book-actions button {
+  font-size: 0.8rem;
+  padding: 0.4rem 0.7rem;
+  border-radius: 0.4rem;
+  border: 1.5px solid #ccc;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 600;
 }
 
 
+.save-btn {
+  background-color: white;
+  color: #333;
+  border-color: #007bff;
+}
+
+.save-btn:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.save-btn.active {
+  background-color: #007bff;
+  color: white;
+}
+
+
+.read-btn {
+  background-color: white;
+  color: #444;
+  border-color: #28a745;
+}
+
+.read-btn:hover {
+  background-color: #28a745;
+  color: white;
+}
+
+.read-btn.active {
+  background-color: #28a745;
+  color: white;
+}
+
+
+
+/* para botao quero usar essas cor ff9900 */
