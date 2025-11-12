@@ -4,10 +4,9 @@ import "./cadastro.css";
 export default function Cadastro() {
   const [titulo, setTitulo] = useState("");
   const [autor, setAutor] = useState("");
+  const [imagem, setImagem] = useState("");
   const [genero, setGenero] = useState("");
   const [mensagem, setMensagem] = useState("");
-  const [imagem, setImagem] = useState(""); 
- 
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -18,7 +17,9 @@ export default function Cadastro() {
       titulo, 
       autor, 
       imagem, 
-      genero
+      genero,
+      // NOVO: Adiciona um status inicial de leitura.
+      statusLeitura: "Quero ler" 
     };
 
     const livrosAtualizados = [...livrosSalvos, novoLivro];
@@ -26,83 +27,78 @@ export default function Cadastro() {
 
     setTitulo("");
     setAutor("");
-    setImagem(""); 
+    setImagem("");
     setGenero("");
     setMensagem("Livro cadastrado com sucesso!");
 
-    setTimeout(() => setMensagem(""), 3000);
+    // Remove a mensagem após 3 segundos
+    setTimeout(() => setMensagem(""), 3000); 
   };
 
   return (
     <div className="cadastro-container">
       <div className="cadastro-form-wrapper">
-        <h2>Cadastro de Livro</h2>
-        <p>Preencha os campos abaixo para adicionar um novo livro à sua coleção.</p>
-        
+        <h2>Adicionar Novo Livro</h2>
+        <p>Preencha os campos abaixo para catalogar um livro em sua biblioteca.</p>
+
+        {mensagem && <p className="alert-success">{mensagem}</p>}
+
         <form onSubmit={handleSubmit} className="cadastro-form">
+          {/* Campo Título */}
           <div className="form-group">
-            <label htmlFor="titulo">Título</label>
+            <label htmlFor="titulo">Título:</label>
             <input
-              id="titulo"
               type="text"
-              placeholder="Ex: O Senhor dos Anéis"
+              id="titulo"
               value={titulo}
               onChange={(e) => setTitulo(e.target.value)}
-              className="form-control"
               required
+              className="form-control"
             />
           </div>
 
+          {/* Campo Autor */}
           <div className="form-group">
-            <label htmlFor="autor">Autor</label>
+            <label htmlFor="autor">Autor(a):</label>
             <input
-              id="autor"
               type="text"
-              placeholder="Ex: J.R.R. Tolkien"
+              id="autor"
               value={autor}
               onChange={(e) => setAutor(e.target.value)}
-              className="form-control"
               required
+              className="form-control"
             />
           </div>
 
+          {/* Campo URL da Imagem (Capa) */}
           <div className="form-group">
-            <label htmlFor="genero">Gênero</label>
-            <select
-              id="genero"
-              value={genero}
-              onChange={(e) => setGenero(e.target.value)}
-              className="form-control"
-              required
-            >
-              <option value="">Selecione um gênero</option>
-              <option value="Fantasia">Fantasia</option>
-              <option value="Romance">Romance</option>
-              <option value="Ficção Científica">Ficção Científica</option>
-              <option value="Terror">Terror</option>
-              <option value="Mistério">Mistério</option>
-              <option value="Aventura">Aventura</option>
-              <option value="Biografia">Biografia</option>
-            </select>
-          </div>
-
-          
-          <div className="form-group">
-            <label htmlFor="imagem">URL da Imagem</label>
+            <label htmlFor="imagem">URL da Capa (Opcional):</label>
             <input
-              id="imagem"
               type="url"
-              placeholder="Cole aqui o link da imagem da capa"
+              id="imagem"
               value={imagem}
               onChange={(e) => setImagem(e.target.value)}
               className="form-control"
             />
           </div>
 
-          <button type="submit" className="btn btn-primary w-100">Cadastrar Livro</button>
-        </form>
+          {/* Campo Gênero */}
+          <div className="form-group">
+            <label htmlFor="genero">Gênero:</label>
+            <input
+              type="text"
+              id="genero"
+              value={genero}
+              onChange={(e) => setGenero(e.target.value)}
+              required
+              className="form-control"
+            />
+          </div>
 
-        {mensagem && <div className="alert alert-success mt-3">{mensagem}</div>}
+          <button type="submit" className="submit-btn">
+            Cadastrar Livro
+          </button>
+        </form>
       </div>
     </div>
   );

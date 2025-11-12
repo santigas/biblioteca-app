@@ -1,3 +1,4 @@
+
 import { Link } from 'react-router-dom';
 import './header.css'; 
 
@@ -10,8 +11,9 @@ const Header = () => {
       <nav className="header-nav">
         <ul>
           <li><Link to="/">Início</Link></li>
-          <li><Link to="/cadastro">Cadastro</Link></li>
-          <li><Link to="/listagem">Listagem</Link></li>
+          {/* REMOVIDO: <li><Link to="/cadastro">Cadastro</Link></li> */}
+          {/* NOVO: Link renomeado para "Estante" */}
+          <li><Link to="/estante">Estante</Link></li>
         </ul>
       </nav>
     </header>

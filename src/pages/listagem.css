@@ -1,37 +1,79 @@
-.listagem-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+/* ... (Seção :root, a, body, h1, button) ... */
+
+/* Estilos de Card */
+.bookcard {
+  width: 180px; 
+  border-radius: 0.5rem;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  text-align: center;
+  padding: 0.8rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.bookcard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.book-card-image {
   width: 100%;
+  height: 220px; 
+  object-fit: cover;
+  border-radius: 0.4rem;
+  margin-bottom: 0.6rem;
 }
 
 .book-card-content {
-  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .book-card-content h3 {
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin: 0 0 0.5rem 0;
+  font-size: 0.95rem;
+  color: #222;
+  margin: 0.2rem 0;
+  font-weight: 600;
 }
 
-.book-card-author,
-.book-card-genre {
-  font-size: 0.875rem;
-  color: #6b7280;
-  margin-bottom: 0.5rem;
+.book-card-content p {
+  font-size: 0.8rem;
+  color: #555;
+  margin: 0.2rem 0;
+}
+/* ... (Estilos da Search Bar e no-results) ... */
+
+
+/* REMOVIDO: .save-btn, .read-btn e suas classes :hover e .active */
+
+/* NOVO: Estilo para o seletor de status (Substitui os botões anteriores) */
+.book-actions {
+  /* Altera para acomodar o select */
+  display: block; 
+  margin-top: 0.6rem;
+  width: 100%;
 }
 
-.delete-btn {
-  background-color: #d14a4a;
-  color: #fff;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
+.book-status-select {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 0.4rem;
+  border: 1px solid #ccc;
+  font-size: 0.85rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  background-color: #f9f9f9; 
+  color: #333;
+  transition: border-color 0.25s;
 }
 
-.delete-btn:hover {
-  background-color: #a0293b;
+.book-status-select:hover,
+.book-status-select:focus {
+  border-color: #00a676; /* Cor de destaque */
+  outline: none;
 }
+/* FIM NOVO */
+
+/* ... (Estilos do media query) ... */

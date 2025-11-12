@@ -1,70 +1,70 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./home.css";
 
-const readingTips = [
-  {
-    id: 1,
+// Dados mockados (simulando a resposta da API)
+const mockCatalogue = [
+  { id: 1,
     title: "A Terra da Flor Azul",
     author: "Frances Hodgson Burnett",
-    imageUrl: "https://m.media-amazon.com/images/I/81LtpDR0LZL._AC_UF1000,1000_QL80_.jpg",
-  },
-  {
-    id: 2,
+    imageUrl: "https://m.media-amazon.com/images/I/81LtpDR0LZL._AC_UF1000,1000_QL80_.jpg"
+   },
+  { id: 2,
     title: "Harry Potter e a Pedra Filosofal",
     author: "J.K. Rowling",
-    imageUrl: "https://http2.mlstatic.com/D_NQ_NP_754630-MLU77444326845_072024-O.webp",
+    imageUrl: "https://http2.mlstatic.com/D_NQ_NP_754630-MLU77444326845_072024-O.webp" 
   },
-  {
-    id: 3,
+  { id: 3,
     title: "O Hobbit",
     author: "J.R.R. Tolkien",
-    imageUrl: "https://m.media-amazon.com/images/I/81t2CVWEsUL._AC_UF894,1000_QL80_.jpg",
+    imageUrl: "https://m.media-amazon.com/images/I/81t2CVWEsUL._AC_UF894,1000_QL80_.jpg" 
   },
-  {
-    id: 4,
+  { id: 4,
     title: "O Pequeno Príncipe",
     author: "Antoine de Saint-Exupéry",
-    imageUrl: "https://m.media-amazon.com/images/I/71OZNgRJ3hL.jpg",
+    imageUrl: "https://m.media-amazon.com/images/I/71OZNgRJ3hL.jpg" 
   },
-  {
-    id: 5,
+  { id: 5,
     title: "Orgulho e Preconceito",
     author: "Jane Austen",
-    imageUrl: "https://covers.openlibrary.org/b/id/11121638-L.jpg",
+    imageUrl: "https://covers.openlibrary.org/b/id/11121638-L.jpg" 
   },
-  {
-    id: 6,
+  { id: 6,
     title: "Dom Quixote",
     author: "Miguel de Cervantes",
-    imageUrl: "https://covers.openlibrary.org/b/id/8101356-L.jpg",
+    imageUrl: "https://covers.openlibrary.org/b/id/8101356-L.jpg" 
   },
-{
-    id: 7,
+  { id: 7,
     title: "O Hobbit",
     author: "J.R.R. Tolkien",
-    imageUrl: "https://covers.openlibrary.org/b/id/6979861-L.jpg",
+    imageUrl: "https://covers.openlibrary.org/b/id/6979861-L.jpg" 
   },
-  {
-    id: 8,
+  { id: 8,
     title: "O Pequeno Príncipe",
     author: "Antoine de Saint-Exupéry",
-    imageUrl: "https://covers.openlibrary.org/b/id/9251996-L.jpg",
+    imageUrl: "https://covers.openlibrary.org/b/id/9251996-L.jpg" 
   },
-  {
-    id: 9,
+  { id: 9,
     title: "Orgulho e Preconceito",
     author: "Jane Austen",
-    imageUrl: "https://covers.openlibrary.org/b/id/11121638-L.jpg",
+    imageUrl: "https://covers.openlibrary.org/b/id/11121638-L.jpg" 
   },
-  {
-    id: 10,
+  { id: 10,
     title: "Dom Quixote",
     author: "Miguel de Cervantes",
-    imageUrl: "https://covers.openlibrary.org/b/id/8101356-L.jpg",
+    imageUrl: "https://covers.openlibrary.org/b/id/8101356-L.jpg" 
   },
 ];
 
-const BookCard = ({ book, onSave, onRead, saved, read }) => {
+const STATUS_OPCOES = [
+  "Quero ler",
+  "Lendo",
+  "Lido",
+  "Relendo",
+  "Abandonei",
+];
+
+// Componente BookCard para a Home.jsx
+const BookCard = ({ book, onStatusChange, currentStatus }) => {
   return (
     <div className="bookcard">
       <img
@@ -76,45 +76,58 @@ const BookCard = ({ book, onSave, onRead, saved, read }) => {
         <h3>{book.title}</h3>
         <p>{book.author}</p>
 
+        {/* NOVO: Seletor de Status de Leitura */}
         <div className="book-actions">
-          <button
-            className={`save-btn ${saved ? "active" : ""}`}
-            onClick={() => onSave(book.id)}
+          <select
+            value={currentStatus || "Quero ler"} 
+            onChange={(e) => onStatusChange(book.id, e.target.value)}
+            className="book-status-select"
           >
-            {saved ? "✔️ Salvo" : "🔖 Ler depois"}
-          </button>
-
-          <button
-            className={`read-btn ${read ? "active" : ""}`}
-            onClick={() => onRead(book.id)}
-          >
-            {read ? "📘 Lido" : "✅ Já li"}
-          </button>
+            {STATUS_OPCOES.map((status) => (
+              <option key={status} value={status}>
+                {status}
+              </option>
+            ))}
+          </select>
         </div>
+        {/* FIM NOVO */}
       </div>
     </div>
   );
 };
 
 export default function Home() {
-  const [savedBooks, setSavedBooks] = useState([]);
-  const [readBooks, setReadBooks] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [catalogue, setCatalogue] = useState(mockCatalogue); // Catálogo (dados da API)
+  
+  // NOVO: Mapeamento de status: { bookId: status, ... }
+  const [bookStatuses, setBookStatuses] = useState({}); 
 
-  const toggleSave = (id) => {
-    setSavedBooks((prev) =>
-      prev.includes(id) ? prev.filter((b) => b !== id) : [...prev, id]
-    );
+  // Carrega status do localStorage ao montar
+  useEffect(() => {
+    const storedStatuses = JSON.parse(localStorage.getItem("bookStatuses")) || {};
+    setBookStatuses(storedStatuses);
+    
+    // Simulação da API: aqui você faria o fetch(API_URL).then(setCatalogue)
+    // Manteremos mockCatalogue por enquanto.
+  }, []);
+
+  // Salva status no localStorage sempre que 'bookStatuses' mudar
+  useEffect(() => {
+    localStorage.setItem("bookStatuses", JSON.stringify(bookStatuses));
+  }, [bookStatuses]);
+
+  // Função para atualizar o status do livro
+  const handleStatusChange = (id, newStatus) => {
+    setBookStatuses(prevStatuses => ({
+      ...prevStatuses,
+      [id]: newStatus,
+    }));
   };
 
-  const toggleRead = (id) => {
-    setReadBooks((prev) =>
-      prev.includes(id) ? prev.filter((b) => b !== id) : [...prev, id]
-    );
-  };
-
-  const filteredBooks = readingTips.filter((book) =>
-    book.title.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredBooks = catalogue.filter((book) =>
+    book.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    book.author.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -122,13 +135,13 @@ export default function Home() {
       <main className="home-container">
         <section className="welcome-section">
           <p>
-            Salve os livros que deseja ler e marque os que já terminou.
+            Encontre novos livros e categorize seu status de leitura!
           </p>
         </section>
 
         <div className="content-layout">
           <section className="books-section">
-            <h2 className="section-title">Sua Estante</h2>
+            <h2 className="section-title">Catálogo de Livros</h2>
 
             <div className="search-bar">
               <input
@@ -145,10 +158,8 @@ export default function Home() {
                   <BookCard
                     key={book.id}
                     book={book}
-                    onSave={toggleSave}
-                    onRead={toggleRead}
-                    saved={savedBooks.includes(book.id)}
-                    read={readBooks.includes(book.id)}
+                    currentStatus={bookStatuses[book.id]}
+                    onStatusChange={handleStatusChange}
                   />
                 ))
               ) : (
