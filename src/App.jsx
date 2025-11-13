@@ -1,11 +1,10 @@
-// santigas/biblioteca-app/biblioteca-app-9059e10258ab4d082fa551499dc573179f3f949b/src/App.jsx
-
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/header/Header.jsx"; 
 import Home from "./pages/Home.jsx";
-// REMOVIDO: import Cadastro from "./pages/Cadastro.jsx";
-// NOVO: Importa o componente Estante
+// NOVO: Importa o componente Apresentacao
+import Apresentacao from "./pages/Apresentacao.jsx"; 
 import Estante from "./pages/Estante.jsx"; 
+// REMOVIDO: import Cadastro from "./pages/Cadastro.jsx";
 
 function App() {
   return (
@@ -13,14 +12,16 @@ function App() {
       <Header /> 
       <div className="container mt-4">
         <Routes>
-          <Route path="/" element={<Home />} />
-          {/* REMOVIDO: <Route path="/cadastro" element={<Cadastro />} /> */}
-          {/* NOVO: Rota para /estante */}
+          {/* Rota para o Início (mantendo Home.jsx original) */}
+          <Route path="/" element={<Home />} /> 
+          {/* Rota para a nova página de Apresentação */}
+          <Route path="/apresentacao" element={<Apresentacao />} />
           <Route path="/estante" element={<Estante />} />
+          {/* REMOVIDO: <Route path="/cadastro" element={<Cadastro />} /> */}
         </Routes>
       </div>
     </Router>
   );
 }
 
-export default App;
+export default App; 

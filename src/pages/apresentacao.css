@@ -1,0 +1,319 @@
+/* Paleta de Cores (exemplo, ajuste conforme preferir) */
+:root {
+    --primary-color: #00a676; /* Verde vibrante */
+    --secondary-color: #2c3e50; /* Azul escuro */
+    --accent-color: #ffbe0b; /* Amarelo ouro para destaque */
+    --text-dark: #333;
+    --text-light: #f9f9f9;
+    --bg-light: #f8f9fa; /* NOVO: Cinza claro sutil e limpo */
+    --bg-white: #ffffff;
+}
+
+.apresentacao-container {
+    background-color: var(--bg-light);
+    max-width: 100%; 
+    margin: 0 auto;
+    font-family: 'Poppins', sans-serif; 
+    color: var(--text-dark);
+}
+
+/* -------------------- Hero Section -------------------- */
+.hero-section {
+    background: linear-gradient(135deg, var(--secondary-color) 0%, #34495e 100%);
+    color: var(--text-light);
+    padding: 60px 20px; /* COMPACTO: Reduzido de 80px */
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px; /* COMPACTO: Reduzido de 480px */
+    position: relative;
+    overflow: hidden; 
+}
+
+/* ... (::before pseudo-elemento) ... */
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><g fill="%23ffffff" fill-opacity="0.05"><path d="M98 0H100V2H98V0ZM2 0H0V2H2V0ZM98 98H100V100H98V98ZM2 98H0V100H2V98Z" /></g></svg>');
+    background-size: 100px 100px;
+    opacity: 0.1;
+    z-index: 0;
+}
+
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+    z-index: 1; 
+}
+
+.hero-section h1 {
+    font-size: 3.2rem; 
+    margin-bottom: 1rem;
+    font-weight: 800;
+    line-height: 1.1;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.hero-section .subtitle {
+    font-size: 1.4rem; 
+    margin-bottom: 2rem; /* COMPACTO: Reduzido de 2.5rem */
+    font-weight: 300;
+    opacity: 0.9;
+}
+
+.call-to-action-button {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 16px 35px; /* COMPACTO: Reduzido de 18px 40px */
+    border-radius: 50px; 
+    text-decoration: none;
+    font-size: 1.2rem; /* COMPACTO: Reduzido de 1.3rem */
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 15px rgba(0, 166, 118, 0.3);
+}
+
+.call-to-action-button:hover {
+    background-color: #008f65; 
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px rgba(0, 166, 118, 0.4);
+}
+
+/* -------------------- Estilo de Título de Seção Unificado -------------------- */
+.section-heading {
+    font-size: 2.5rem; 
+    color: var(--secondary-color);
+    margin-bottom: 2rem; /* COMPACTO: Reduzido de 2.5rem */
+    font-weight: 700;
+    position: relative;
+    display: inline-block; 
+}
+
+.section-heading::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -8px; /* COMPACTO: Reduzido de -10px */
+    width: 80px; 
+    height: 4px;
+    background-color: var(--accent-color);
+    border-radius: 2px;
+}
+
+
+/* -------------------- About Section -------------------- */
+.about-section {
+    background-color: var(--bg-white); 
+    padding: 50px 20px; /* COMPACTO: Reduzido de 70px */
+    text-align: center;
+}
+
+/* Centraliza o conteúdo da seção About */
+.about-content {
+    max-width: 1100px; 
+    margin: 0 auto;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    gap: 30px; /* COMPACTO: Reduzido de 40px */
+    align-items: center; 
+    text-align: left; 
+    margin-top: 2rem; /* COMPACTO: Reduzido de 3rem */
+}
+
+.about-text p {
+    font-size: 1.1rem; 
+    line-height: 1.8;
+    color: var(--text-dark);
+    margin-bottom: 1rem; /* COMPACTO: Reduzido de 1.5rem */
+}
+
+.about-image-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.about-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+
+/* -------------------- Features Section -------------------- */
+.features-section {
+    background-color: var(--bg-light); 
+    padding: 50px 20px; /* COMPACTO: Reduzido de 70px */
+    text-align: center;
+}
+
+.features-section h2 {
+    /* Usa o estilo unificado .section-heading */
+    font-size: 2.5rem;
+    color: var(--secondary-color);
+    margin-bottom: 2rem; /* COMPACTO: Reduzido de 3rem */
+    font-weight: 700;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px; /* COMPACTO: Reduzido de 30px */
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.feature-card {
+    background-color: var(--bg-white);
+    padding: 25px; /* COMPACTO: Reduzido de 30px */
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-bottom: 4px solid var(--primary-color); 
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.feature-card h3 {
+    font-size: 1.6rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.feature-card p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text-dark);
+}
+
+/* -------------------- CTA Image Section -------------------- */
+.cta-image-section {
+    background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.8)), 
+                url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=2070&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%D') no-repeat center center;
+    background-size: cover;
+    background-attachment: fixed; 
+    color: var(--text-light);
+    padding: 70px 20px; /* COMPACTO: Reduzido de 90px */
+    text-align: center;
+}
+
+.cta-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.cta-image-section h2 {
+    font-size: 2.5rem; 
+    margin-bottom: 1rem; /* COMPACTO: Reduzido de 1.5rem */
+    font-weight: 700;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.cta-image-section p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem; /* COMPACTO: Reduzido de 2.5rem */
+    opacity: 0.9;
+}
+
+/* Botão secundário para CTA */
+.call-to-action-button.secondary {
+    background-color: var(--accent-color);
+    box-shadow: 0 8px 15px rgba(255, 190, 11, 0.3);
+}
+
+.call-to-action-button.secondary:hover {
+    background-color: #e0a300;
+    box-shadow: 0 12px 20px rgba(255, 190, 11, 0.4);
+}
+
+
+/* -------------------- Footer -------------------- */
+.footer {
+    text-align: center;
+    padding: 20px 20px; /* COMPACTO: Reduzido de 30px */
+    color: #777;
+    font-size: 0.9rem;
+    background-color: #eee;
+}
+
+/* -------------------- Responsividade -------------------- */
+/* ... (As regras de @media permanecem as mesmas) ... */
+@media (max-width: 992px) {
+    .about-grid {
+        grid-template-columns: 1fr; /* Uma coluna em telas menores */
+    }
+    .about-text, .about-image-wrapper {
+        text-align: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        min-height: 400px;
+        padding: 80px 15px;
+    }
+    .hero-section h1 {
+        font-size: 2.8rem;
+    }
+    .hero-section .subtitle {
+        font-size: 1.2rem;
+    }
+    .call-to-action-button {
+        padding: 15px 30px;
+        font-size: 1.1rem;
+    }
+
+    .about-section {
+        padding: 50px 15px;
+        /* COMPACTO: Removida margem */
+    }
+    .section-heading {
+        font-size: 2.2rem;
+    }
+    .about-text p {
+        font-size: 1rem;
+    }
+
+    .features-section h2, .cta-image-section h2 {
+        font-size: 2rem;
+    }
+    .features-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-section h1 {
+        font-size: 2.2rem;
+    }
+    .hero-section .subtitle {
+        font-size: 1rem;
+    }
+    .call-to-action-button {
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+    .section-heading {
+        font-size: 1.8rem;
+    }
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+}      
