@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import './listagem.css'; // Mantenha listagem.css ou renomeie para estante.css
+import './estante.css'; // (ou ./estante.css se o renomeou)
 
-// 🚨 ATENÇÃO: ESTE CATÁLOGO DEVE SER IDÊNTICO AO USADO EM Home.jsx
+// ... (mockCatalogue, STATUS_OPCOES, e o componente BookCard permanecem os mesmos) ...
 const catalogue = [
     { id: 1,
       title: "A Terra da Flor Azul",
@@ -63,10 +63,16 @@ const STATUS_OPCOES = [
   "Abandonei",
 ];
 
-// Componente BookCard para Estante (Cópia da Home)
 const BookCard = ({ book, onStatusChange, currentStatus }) => {
+    const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+
+    const handleStatusSelect = (status) => {
+        onStatusChange(book.id, status);
+        setIsPopoverOpen(false);
+    };
+
     return (
-        <div className="book-card">
+        <div className="book-card"> 
             <img
                 src={book.imageUrl}
                 alt={`Capa do livro ${book.title}`}
@@ -75,22 +81,33 @@ const BookCard = ({ book, onStatusChange, currentStatus }) => {
             <div className="book-card-content">
                 <h3>{book.title}</h3>
                 <p className="book-card-author">por {book.author}</p>
-                {/* Seletor de Status de Leitura */}
-                <div className="book-status-group">
-                    <label htmlFor={`status-${book.id}`}>Status:</label>
-                    <select
-                        id={`status-${book.id}`}
-                        value={currentStatus || "Quero ler"} 
-                        onChange={(e) => onStatusChange(book.id, e.target.value)}
-                        className="book-status-select"
-                    >
-                        {STATUS_OPCOES.map((status) => (
-                            <option key={status} value={status}>
-                                {status}
-                            </option>
-                        ))}
-                    </select>
+                <div className="status-btn-wrapper">
+                  <button
+                      className="status-plus-btn"
+                      onClick={() => setIsPopoverOpen(true)}
+                      title="Mudar status"
+                  >
+                      +
+                  </button>
                 </div>
+                {isPopoverOpen && (
+                    <>
+                        <div className="popover-backdrop" onClick={() => setIsPopoverOpen(false)}></div>
+                        <div className="status-popover">
+                            {STATUS_OPCOES.map((status) => (
+                                <div
+                                    key={status}
+                                    className={`popover-item ${
+                                        (currentStatus || "Quero ler") === status ? 'active' : ''
+                                    }`}
+                                    onClick={() => handleStatusSelect(status)}
+                                >
+                                    {status}
+                                </div>
+                            ))}
+                        </div>
+                    </>
+                )}
             </div>
         </div>
     );
@@ -100,51 +117,75 @@ const BookCard = ({ book, onStatusChange, currentStatus }) => {
 export default function Estante() {
     const [bookStatuses, setBookStatuses] = useState({}); 
 
-    // 1. CARREGA STATUS SALVO AO MONTAR
+    // ... (useEffect para carregar e sincronizar permanecem os mesmos) ...
     useEffect(() => {
         const storedStatuses = JSON.parse(localStorage.getItem("bookStatuses")) || {};
         setBookStatuses(storedStatuses);
     }, []);
 
-    // Garante que a Estante reaja a mudanças feitas na Home em outra aba (sincronização)
     useEffect(() => {
         const handleStorageChange = () => {
             const storedStatuses = JSON.parse(localStorage.getItem("bookStatuses")) || {};
             setBookStatuses(storedStatuses);
         };
-        // 🚨 O EVENTO 'storage' é o que garante a sincronização entre abas/páginas
         window.addEventListener('storage', handleStorageChange);
         return () => window.removeEventListener('storage', handleStorageChange);
     }, []);
 
-    // Função para atualizar o status e salvar no localStorage (para mudanças feitas na Estante)
+    // 
+    // --- A CORREÇÃO ESTÁ AQUI ---
+    // 
+    // Atualiza status e salva no localStorage
     const handleStatusChange = (id, newStatus) => {
-        const newStatuses = {
-            ...bookStatuses,
-            [id]: newStatus,
-        };
-        setBookStatuses(newStatuses);
-        localStorage.setItem("bookStatuses", JSON.stringify(newStatuses));
-    };
-
-    // Lógica principal: Agrupa os livros por status LIDO/LENDO/ETC.
-    const groupedBooks = catalogue.reduce((acc, book) => {
-        const status = bookStatuses[book.id] || "Quero ler"; 
         
-        if (!acc[status]) {
-            acc[status] = [];
+        // MUDANÇA: Usar a função de callback (prevStatuses) 
+        // para garantir que estamos a adicionar ao estado antigo,
+        // e não a substituí-lo.
+        setBookStatuses(prevStatuses => {
+            const newStatuses = {
+                ...prevStatuses, // <-- Copia TODOS os status antigos
+                [id]: newStatus,      // <-- Adiciona/Atualiza o novo status
+            };
+            
+            // Salva o objeto completo no localStorage
+            localStorage.setItem("bookStatuses", JSON.stringify(newStatuses));
+            return newStatuses; // Retorna o novo objeto para o estado
+        });
+    };
+    
+    // --- FIM DA CORREÇÃO ---
+    // 
+
+    // (O resto do código - trackedBookIds, trackedBooks, groupedBooks, e o return JSX - 
+    //  permanece exatamente o mesmo da minha resposta anterior.)
+
+    // 1. Obter a lista de IDs dos livros que o utilizador JÁ MARCOU
+    const trackedBookIds = Object.keys(bookStatuses).map(id => id.toString());
+
+    // 2. Filtrar o catálogo principal para incluir APENAS os livros marcados
+    const trackedBooks = catalogue.filter(book => 
+        trackedBookIds.includes(book.id.toString())
+    );
+
+    // 3. Agrupar APENAS os livros marcados
+    const groupedBooks = trackedBooks.reduce((acc, book) => {
+        const status = bookStatuses[book.id]; 
+        
+        if (status) { 
+            if (!acc[status]) {
+                acc[status] = [];
+            }
+            acc[status].push(book);
         }
-        acc[status].push(book);
         return acc;
     }, {});
-
-    const STATUS_ORDEM = ["Lendo", "Quero ler", "Lido", "Relendo", "Abandonei"];
     
-    // Filtra e ordena as categorias que possuem livros.
-    const orderedCategories = STATUS_ORDEM.filter(status => groupedBooks[status]);
 
-    // Verifica se nenhum livro foi marcado fora do padrão inicial
-    const allBooksAreDefault = orderedCategories.length === 1 && orderedCategories[0] === "Quero ler" && groupedBooks["Quero ler"].length === catalogue.length;
+    const STATUS_ORDEM = ["Lendo", "Lido", "Quero ler", "Relendo", "Abandonei"];
+    
+    const orderedCategories = STATUS_ORDEM.filter(status => groupedBooks[status] && groupedBooks[status].length > 0);
+
+    const isEstanteEmpty = orderedCategories.length === 0;
 
 
     return (
@@ -152,8 +193,8 @@ export default function Estante() {
             <h2 className="estante-title">Minha Estante de Leitura</h2>
             <p className="estante-subtitle">Gerencie seus status de leitura em um só lugar.</p>
             
-            {allBooksAreDefault ? (
-                <p className="no-filter-message">Marque um livro na página "Início" como "Lido", "Lendo", ou outro status para que ele apareça aqui, agrupado!</p>
+            {isEstanteEmpty ? (
+                <p className="no-filter-message">A sua estante está vazia. Vá ao "Início" e marque o status de um livro para o adicionar aqui!</p>
             ) : (
                 orderedCategories.map(status => (
                     <div key={status} className="status-group">

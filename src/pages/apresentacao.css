@@ -182,7 +182,7 @@
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
     text-align: left;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border-bottom: 4px solid var(--primary-color); 
+    border-bottom: 4px solid #6c99c7; 
 }
 
 .feature-card:hover {
@@ -192,7 +192,7 @@
 
 .feature-card h3 {
     font-size: 1.6rem;
-    color: var(--primary-color);
+    color: #6c99c7;
     margin-bottom: 1rem;
     font-weight: 700;
 }

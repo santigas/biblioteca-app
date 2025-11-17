@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+// santigas/biblioteca-app/biblioteca-app-fcc725e9387e4d0204ab59422db90f6e8dcf8093/src/pages/Home.jsx
+
+import React, { useState, useEffect } from "react"; 
 import "./home.css";
 
-// Catálogo de livros mockados (substituir por API real)
+// Catálogo de livros mockados
 const mockCatalogue = [
     { id: 1,
       title: "A Terra da Flor Azul",
@@ -63,54 +65,79 @@ const STATUS_OPCOES = [
   "Abandonei",
 ];
 
+// BookCard da Home (sem título/autor)
 const BookCard = ({ book, onStatusChange, currentStatus }) => {
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+
+  const handleStatusSelect = (status) => {
+    onStatusChange(book.id, status); 
+    setIsPopoverOpen(false); 
+  };
+
   return (
-    <div className="bookcard">
+    <div className="bookcard"> 
       <img
         className="book-card-image"
         src={book.imageUrl}
         alt={`Capa do livro ${book.title}`}
       />
       <div className="book-card-content">
-        <h3>{book.title}</h3>
-        <p>{book.author}</p>
+        
+        {/* Título e Autor removidos */}
 
-        <div className="book-actions">
-          <select
-            value={currentStatus || "Quero ler"} 
-            // 🚨 Aqui o status é atualizado via onStatusChange (que salva no localStorage)
-            onChange={(e) => onStatusChange(book.id, e.target.value)}
-            className="book-status-select"
+        {/* Wrapper para alinhar o botão ao CENTRO */}
+        <div className="status-btn-wrapper">
+          <button
+            className="status-plus-btn"
+            onClick={() => setIsPopoverOpen(true)}
+            title="Mudar status"
           >
-            {STATUS_OPCOES.map((status) => (
-              <option key={status} value={status}>
-                {status}
-              </option>
-            ))}
-          </select>
+            +
+          </button>
         </div>
+
+        {/* O Pop-up (a "telinha") */}
+        {isPopoverOpen && (
+          <>
+            <div className="popover-backdrop" onClick={() => setIsPopoverOpen(false)}></div>
+            <div className="status-popover">
+              {STATUS_OPCOES.map((status) => (
+                <div
+                  key={status}
+                  className={`popover-item ${
+                      (currentStatus || "Quero ler") === status ? 'active' : ''
+                  }`}
+                  onClick={() => handleStatusSelect(status)}
+                >
+                  {status}
+                </div>
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
 };
+
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
   const [catalogue, setCatalogue] = useState(mockCatalogue);
   const [bookStatuses, setBookStatuses] = useState({}); 
 
-  // 1. CARREGA STATUS SALVO
+  // Carrega status salvo
   useEffect(() => {
     const storedStatuses = JSON.parse(localStorage.getItem("bookStatuses")) || {};
     setBookStatuses(storedStatuses);
   }, []);
 
-  // 2. SALVA STATUS MODIFICADO (sempre que bookStatuses muda)
+  // Salva status modificado
   useEffect(() => {
     localStorage.setItem("bookStatuses", JSON.stringify(bookStatuses));
   }, [bookStatuses]);
 
-  // Função para atualizar o status do livro
+  // Atualiza o status
   const handleStatusChange = (id, newStatus) => {
     setBookStatuses(prevStatuses => ({
       ...prevStatuses,
@@ -126,26 +153,26 @@ export default function Home() {
 
   return (
     <div className="home-page">
+      {/* MUDANÇA: Título, Subtítulo e Pesquisa movidos para o topo */}
       <main className="home-container">
-        <section className="welcome-section">
-          <p>
-            Encontre novos livros e categorize seu status de leitura!
-          </p>
-        </section>
+        
+        <h2 className="section-title">Catálogo de Livros</h2>
+        <p className="section-subtitle">
+          Encontre novos livros e categorize seu status de leitura!
+        </p>
+        <div className="search-bar">
+          <input
+            type="text"
+            placeholder="Pesquisar livros..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
 
+        {/* Layout de conteúdo (grelha) */}
         <div className="content-layout">
           <section className="books-section">
-            <h2 className="section-title">Catálogo de Livros</h2>
-
-            <div className="search-bar">
-              <input
-                type="text"
-                placeholder="Pesquisar livros..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
-
+            
             <div className="reading-tips-grid">
               {filteredBooks.length > 0 ? (
                 filteredBooks.map((book) => (

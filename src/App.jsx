@@ -1,27 +1,26 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Header from "./components/header/Header.jsx"; 
+// MUDANÇA AQUI: Corrigido de "Header.jsx" para "header.jsx" (h minúsculo)
+import Header from "./components/header/header.jsx"; 
 import Home from "./pages/Home.jsx";
-// NOVO: Importa o componente Apresentacao
-import Apresentacao from "./pages/Apresentacao.jsx"; 
 import Estante from "./pages/Estante.jsx"; 
-// REMOVIDO: import Cadastro from "./pages/Cadastro.jsx";
+import Apresentacao from "./pages/apresentacao.jsx";
 
 function App() {
   return (
     <Router>
       <Header /> 
-      <div className="container mt-4">
+        <div className="container mt-4">
         <Routes>
-          {/* Rota para o Início (mantendo Home.jsx original) */}
-          <Route path="/" element={<Home />} /> 
-          {/* Rota para a nova página de Apresentação */}
-          <Route path="/apresentacao" element={<Apresentacao />} />
-          <Route path="/estante" element={<Estante />} />
-          {/* REMOVIDO: <Route path="/cadastro" element={<Cadastro />} /> */}
-        </Routes>
+        {/* A rota "/" (principal) agora carrega a Apresentacao */}
+        <Route path="/" element={<Apresentacao />} />
+
+        {/* A Home (catálogo) passa para a rota "/catalogo" */}
+        <Route path="/catalogo" element={<Home />} />
+        <Route path="/estante" element={<Estante />} />
+      </Routes>
       </div>
     </Router>
   );
 }
 
-export default App; 
+export default App;

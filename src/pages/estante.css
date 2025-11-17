@@ -1,0 +1,227 @@
+/* santigas/biblioteca-app/biblioteca-app-fcc725e9387e4d0204ab59422db90f6e8dcf8093/src/pages/listagem.css */
+/* (Ou estante.css) */
+
+/* -------------------------------------- */
+/* ESTILOS DO CARD (Com caixa branca) */
+/* -------------------------------------- */
+.book-card {
+  width: 180px; 
+  border-radius: 0.5rem;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  text-align: center;
+  padding: 0.8rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box; 
+}
+
+.book-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.book-card-image {
+  width: 100%;
+  border-radius: 0.4rem;
+  margin-bottom: 0.6rem; 
+}
+
+/* O container de conteúdo precisa ser relativo */
+.book-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative; /* Âncora para o .status-popover */
+}
+
+.book-card-content h3 {
+  font-size: 0.95rem;
+  color: #222;
+  margin: 0.2rem 0;
+  font-weight: 600;
+}
+
+.book-card-content p {
+  font-size: 0.8rem;
+  color: #555;
+  /* Reduz a margem inferior do autor */
+  margin: 0.2rem 0 2px 0;
+}
+
+
+/* -------------------------------------- */
+/* ESTILOS DO POP-UP (A "TELINHA") */
+/* -------------------------------------- */
+
+/* Wrapper para alinhar o botão ao CENTRO */
+.status-btn-wrapper {
+  width: 100%; 
+  display: flex;
+  justify-content: center; 
+  box-sizing: border-box; 
+  margin-top: 0px; 
+}
+
+/* Botão "+" (sem círculo, preto, menor) */
+.status-plus-btn {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  color: black;
+  font-size: 1.6rem; 
+  font-weight: 400; 
+  cursor: pointer;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Tamanho fixo para centralizar o hover */
+  width: 28px;
+  height: 28px;
+  border-radius: 50%; 
+  
+  padding: 0;
+  /* Adiciona box-shadow à transição */
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.status-plus-btn:hover {
+  transform: scale(1.1);
+  background-color: rgba(0,0,0,0.1); 
+}
+
+/* MUDANÇA (A CORREÇÃO): 
+  Remove o outline "a lápis" e o substitui
+*/
+.status-plus-btn:focus,
+.status-plus-btn:focus-visible {
+  outline: none; /* Remove o contorno "a lápis" */
+  
+  /* Adiciona a nossa sombra "bonita" */
+  box-shadow: 0 0 0 3px rgba(0, 166, 118, 0.4); 
+  
+  /* Feedback visual (opcional) */
+  background-color: rgba(0,0,0,0.05); 
+  transform: scale(1.05); 
+}
+
+
+/* A "telinha" (pop-up) */
+.status-popover {
+  position: absolute;
+  bottom: 35px; 
+  left: 50%;
+  transform: translateX(-50%);
+  width: 160px; 
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 10; 
+  overflow: hidden; 
+}
+
+/* Itens dentro do pop-up */
+.popover-item {
+  padding: 10px 15px;
+  cursor: pointer;
+  color: #333;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: left;
+}
+
+.popover-item:hover {
+  background-color: #f0f0f0;
+}
+
+/* Item ativo (o status atual) */
+.popover-item.active {
+  background-color: #6c99c7;
+  color: white;
+  font-weight: 600;
+}
+
+/* Fundo escurecido para fechar o pop-up */
+.popover-backdrop {
+  position: fixed; 
+  top: 0;
+  left: 0;
+  
+  /* MUDANÇA: Substitua width e height por isto: */
+  bottom: 0;
+  right: 0;
+  
+  /* width: 100vw; (REMOVIDO - Esta era a causa do bug) */
+  /* height: 100vh; (REMOVIDO) */
+  
+  background: rgba(0,0,0,0); 
+  z-index: 5; 
+}
+
+/* -------------------------------------- */
+/* ESTILOS DA ESTANTE (AGRUPAMENTO) */
+/* -------------------------------------- */
+
+.listagem-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 20px; 
+}
+
+.listagem-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); 
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 20px;
+}
+
+/* Estilos para os títulos da Estante */
+.estante-title {
+    font-size: 2em;
+    font-weight: 700;
+    color: #f5f2f2;
+    margin-bottom: 5px;
+    width: 100%;
+    text-align: center;
+}
+
+.estante-subtitle {
+    font-size: 1em;
+    color: #ccc;
+    margin-bottom: 30px;
+    width: 100%;
+    text-align: center;
+}
+
+/* Estilos para o agrupamento de status (separadores) */
+.status-group {
+    width: 100%;
+    max-width: 1200px;
+    margin-bottom: 40px;
+}
+
+.status-group-title {
+    font-size: 1.5em;
+    font-weight: 600;
+    color: #ff9900; 
+    border-bottom: 2px solid #772c19;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+}
+
+.no-filter-message {
+    color: #ccc;
+    font-size: 1.1em;
+    padding: 20px;
+    border: 1px dashed #772c19;
+    border-radius: 8px;
+    margin-top: 30px;
+    text-align: center;
+    width: 80%;
+}

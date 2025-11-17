@@ -62,10 +62,6 @@ export default function Apresentacao() {
                     <h3>Descoberta de Títulos</h3>
                     <p>Explore nosso catálogo e encontre sua próxima grande leitura.</p>
                 </div>
-                <div class="feature-card">
-                    <h3>Acesso em Qualquer Lugar</h3>
-                    <p>Sua estante digital está sempre com você, em qualquer dispositivo.</p>
-                </div>
             </div>
         </section>
 
