@@ -294,18 +294,6 @@
   flex-grow: 1;
 }
 
-.footer {
-  width: 100%;
-  text-align: center;
-  padding: 25px 20px;
-  color: #888; 
-  font-size: 0.9rem;
-  background-color: transparent; 
-  margin-top: auto; 
-  box-sizing: border-box; 
-  border-top: 1px solid #e0e0e0; 
-}
-
 /* -------------------------------------- */
 /* --- NOVOS ESTILOS: Botão de Busca e Mensagem --- */
 /* -------------------------------------- */
