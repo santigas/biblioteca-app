@@ -1,60 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import './estante.css'; // (ou ./estante.css se o renomeou)
+import { Link } from 'react-router-dom';
+import './estante.css'; 
 
-// ... (mockCatalogue, STATUS_OPCOES, e o componente BookCard permanecem os mesmos) ...
-const catalogue = [
-    { id: 1,
-      title: "A Terra da Flor Azul",
-      author: "Frances Hodgson Burnett",
-      imageUrl: "https://m.media-amazon.com/images/I/81LtpDR0LZL._AC_UF1000,1000_QL80_.jpg" 
-    },
-    { id: 2,
-      title: "Harry Potter e a Pedra Filosofal",
-      author: "J.K. Rowling",
-      imageUrl: "https://http2.mlstatic.com/D_NQ_NP_754630-MLU77444326845_072024-O.webp" 
-    },
-    { id: 3,
-      title: "O Hobbit",
-      author: "J.R.R. Tolkien",
-      imageUrl: "https://m.media-amazon.com/images/I/81t2CVWEsUL._AC_UF894,1000_QL80_.jpg" 
-      },
-    { id: 4,
-      title: "O Pequeno Príncipe",
-      author: "Antoine de Saint-Exupéry",
-      imageUrl: "https://m.media-amazon.com/images/I/71OZNgRJ3hL.jpg" 
-    },
-    { id: 5,
-      title: "Orgulho e Preconceito",
-      author: "Jane Austen",
-      imageUrl: "https://covers.openlibrary.org/b/id/11121638-L.jpg" 
-    },
-    { id: 6,
-      title: "Dom Quixote",
-      author: "Miguel de Cervantes",
-      imageUrl: "https://covers.openlibrary.org/b/id/8101356-L.jpg" 
-    },
-    { id: 7,
-      title: "1984",
-      author: "George Orwell",
-      imageUrl: "https://m.media-amazon.com/images/I/71NnJ2X9mAL._AC_UF894,1000_QL80_.jpg" 
-    },
-    { id: 8,
-      title: "Fahrenheit 451",
-      author: "Ray Bradbury",
-      imageUrl: "https://m.media-amazon.com/images/I/81l9tP4pU+L._AC_UF894,1000_QL80_.jpg" 
-    },
-    { id: 9,
-    title: "Orgulho e Preconceito",
-    author: "Jane Austen",
-    imageUrl: "https://covers.openlibrary.org/b/id/11121638-L.jpg" 
-    },
-    { id: 10,
-    title: "Dom Quixote",
-    author: "Miguel de Cervantes",
-    imageUrl: "https://covers.openlibrary.org/b/id/8101356-L.jpg" 
-    },
-  ];
-
+// Opções de status
 const STATUS_OPCOES = [
   "Quero ler",
   "Lendo",
@@ -63,7 +11,38 @@ const STATUS_OPCOES = [
   "Abandonei",
 ];
 
-const BookCard = ({ book, onStatusChange, currentStatus }) => {
+// Mapa de classes para as BANDEIRAS (no card)
+const statusClassMap = {
+  "Lido": "status-lido",
+  "Lendo": "status-lendo",
+  "Quero ler": "status-quero-ler",
+  "Relendo": "status-relendo",
+  "Abandonei": "status-abandonei",
+};
+
+// --- MAPA DA SIDEBAR ATUALIZADO ---
+const sidebarStatusMap = {
+    // Status
+    "Todos": { colorClass: "icon-todos" }, // (Removemos o ícone daqui)
+    "Lido": { colorClass: "icon-lido" },
+    "Lendo": { colorClass: "icon-lendo" },
+    "Quero ler": { colorClass: "icon-quero-ler" },
+    "Relendo": { colorClass: "icon-relendo" },
+    "Abandonei": { colorClass: "icon-abandonei" },
+    // Ações
+    "Favorito": { colorClass: "icon-favorito", icon: "♥" },
+    "Salvo": { colorClass: "icon-salvo", icon: "⚑" }, 
+    "Possuo": { colorClass: "icon-possui", icon: "✓" }, 
+    "Emprestado": { colorClass: "icon-emprestado", icon: "→" } 
+};
+
+// Listas de filtros para o JSX
+const STATUS_FILTERS = ["Todos", "Lido", "Lendo", "Quero ler", "Relendo", "Abandonei"];
+const ACTION_FILTERS = ["Favorito", "Salvo", "Possuo", "Emprestado"];
+
+
+// --- COMPONENTE BOOKCARD ---
+const BookCard = ({ book, onStatusChange, currentStatus, onRemoveBook }) => { 
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
     const handleStatusSelect = (status) => {
@@ -71,8 +50,21 @@ const BookCard = ({ book, onStatusChange, currentStatus }) => {
         setIsPopoverOpen(false);
     };
 
+    const flagClass = statusClassMap[currentStatus] || '';
+
     return (
         <div className="book-card"> 
+            
+            {currentStatus && <div className={`book-status-flag ${flagClass}`}></div>}
+            
+            <button 
+                className="remove-book-btn" 
+                onClick={() => onRemoveBook(book.id)} 
+                title="Remover da estante"
+            >
+                🗑️
+            </button>
+        
             <img
                 src={book.imageUrl}
                 alt={`Capa do livro ${book.title}`}
@@ -81,15 +73,17 @@ const BookCard = ({ book, onStatusChange, currentStatus }) => {
             <div className="book-card-content">
                 <h3>{book.title}</h3>
                 <p className="book-card-author">por {book.author}</p>
+                
                 <div className="status-btn-wrapper">
-                  <button
-                      className="status-plus-btn"
-                      onClick={() => setIsPopoverOpen(true)}
-                      title="Mudar status"
-                  >
-                      +
-                  </button>
+                    <button
+                        className="status-plus-btn"
+                        onClick={() => setIsPopoverOpen(true)}
+                        title="Mudar status"
+                    >
+                        +
+                    </button>
                 </div>
+
                 {isPopoverOpen && (
                     <>
                         <div className="popover-backdrop" onClick={() => setIsPopoverOpen(false)}></div>
@@ -114,10 +108,13 @@ const BookCard = ({ book, onStatusChange, currentStatus }) => {
 };
 
 
+// --- COMPONENTE ESTANTE ---
 export default function Estante() {
+    // ... (Hooks, handlers e lógica de filtro permanecem os mesmos) ...
     const [bookStatuses, setBookStatuses] = useState({}); 
+    const [searchTerm, setSearchTerm] = useState("");
+    const [activeFilter, setActiveFilter] = useState("Todos"); 
 
-    // ... (useEffect para carregar e sincronizar permanecem os mesmos) ...
     useEffect(() => {
         const storedStatuses = JSON.parse(localStorage.getItem("bookStatuses")) || {};
         setBookStatuses(storedStatuses);
@@ -132,86 +129,196 @@ export default function Estante() {
         return () => window.removeEventListener('storage', handleStorageChange);
     }, []);
 
-    // 
-    // --- A CORREÇÃO ESTÁ AQUI ---
-    // 
-    // Atualiza status e salva no localStorage
+    // Atualiza status (PRESERVA as ações)
     const handleStatusChange = (id, newStatus) => {
-        
-        // MUDANÇA: Usar a função de callback (prevStatuses) 
-        // para garantir que estamos a adicionar ao estado antigo,
-        // e não a substituí-lo.
         setBookStatuses(prevStatuses => {
-            const newStatuses = {
-                ...prevStatuses, // <-- Copia TODOS os status antigos
-                [id]: newStatus,      // <-- Adiciona/Atualiza o novo status
-            };
+            const bookToUpdate = prevStatuses[id]; 
             
-            // Salva o objeto completo no localStorage
+            const newStatuses = {
+                ...prevStatuses,
+                [id]: {
+                    ...bookToUpdate, 
+                    status: newStatus, 
+                }
+            };
             localStorage.setItem("bookStatuses", JSON.stringify(newStatuses));
-            return newStatuses; // Retorna o novo objeto para o estado
+            return newStatuses;
         });
     };
     
-    // --- FIM DA CORREÇÃO ---
-    // 
+    // Remove livro (sem mudança)
+    const handleRemoveBook = (idToRemove) => {
+        setBookStatuses(prevStatuses => {
+            const newStatuses = { ...prevStatuses };
+            delete newStatuses[idToRemove]; 
+            localStorage.setItem("bookStatuses", JSON.stringify(newStatuses));
+            return newStatuses;
+        });
+    };
 
-    // (O resto do código - trackedBookIds, trackedBooks, groupedBooks, e o return JSX - 
-    //  permanece exatamente o mesmo da minha resposta anterior.)
-
-    // 1. Obter a lista de IDs dos livros que o utilizador JÁ MARCOU
-    const trackedBookIds = Object.keys(bookStatuses).map(id => id.toString());
-
-    // 2. Filtrar o catálogo principal para incluir APENAS os livros marcados
-    const trackedBooks = catalogue.filter(book => 
-        trackedBookIds.includes(book.id.toString())
-    );
-
-    // 3. Agrupar APENAS os livros marcados
-    const groupedBooks = trackedBooks.reduce((acc, book) => {
-        const status = bookStatuses[book.id]; 
-        
-        if (status) { 
-            if (!acc[status]) {
-                acc[status] = [];
-            }
-            acc[status].push(book);
+    // --- LÓGICA DE FILTRO E CONTAGEM ATUALIZADA ---
+    const allMyBooks = Object.values(bookStatuses);
+    const filterCounts = {
+        "Todos": allMyBooks.length,
+        "Lido": allMyBooks.filter(b => b.status === "Lido").length,
+        "Lendo": allMyBooks.filter(b => b.status === "Lendo").length,
+        "Quero ler": allMyBooks.filter(b => b.status === "Quero ler").length,
+        "Relendo": allMyBooks.filter(b => b.status === "Relendo").length,
+        "Abandonei": allMyBooks.filter(b => b.status === "Abandonei").length,
+        "Favorito": allMyBooks.filter(b => b.isLiked === true).length,
+        "Salvo": allMyBooks.filter(b => b.isSaved === true).length,
+        "Possuo": allMyBooks.filter(b => b.isOwned === true).length,
+        "Emprestado": allMyBooks.filter(b => b.isLent === true).length,
+    };
+    const statusFilteredBooks = allMyBooks.filter(book => {
+        switch (activeFilter) {
+            case "Todos":
+                return true;
+            case "Lido":
+                return book.status === "Lido";
+            case "Lendo":
+                return book.status === "Lendo";
+            case "Quero ler":
+                return book.status === "Quero ler";
+            case "Relendo":
+                return book.status === "Relendo";
+            case "Abandonei":
+                return book.status === "Abandonei";
+            case "Favorito":
+                return book.isLiked === true;
+            case "Salvo":
+                return book.isSaved === true;
+            case "Possuo":
+                return book.isOwned === true;
+            case "Emprestado":
+                return book.isLent === true;
+            default:
+                return true;
         }
-        return acc;
-    }, {});
-    
-
-    const STATUS_ORDEM = ["Lendo", "Lido", "Quero ler", "Relendo", "Abandonei"];
-    
-    const orderedCategories = STATUS_ORDEM.filter(status => groupedBooks[status] && groupedBooks[status].length > 0);
-
-    const isEstanteEmpty = orderedCategories.length === 0;
-
+    });
+    const finalBooksToShow = statusFilteredBooks.filter(book => 
+        book.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+        (book.author && book.author.toLowerCase().includes(searchTerm.toLowerCase()))
+    );
+    const isEstanteEmpty = allMyBooks.length === 0;
 
     return (
-        <div className="listagem-container estante-page">
-            <h2 className="estante-title">Minha Estante de Leitura</h2>
-            <p className="estante-subtitle">Gerencie seus status de leitura em um só lugar.</p>
+        <div className="estante-page-wrapper">
+
+            {/* --- MUDANÇA PRINCIPAL AQUI --- */}
             
             {isEstanteEmpty ? (
-                <p className="no-filter-message">A sua estante está vazia. Vá ao "Início" e marque o status de um livro para o adicionar aqui!</p>
-            ) : (
-                orderedCategories.map(status => (
-                    <div key={status} className="status-group">
-                        <h3 className="status-group-title">{status} ({groupedBooks[status].length})</h3>
-                        <div className="listagem-grid">
-                            {groupedBooks[status].map(book => (
-                                <BookCard
-                                    key={book.id}
-                                    book={book}
-                                    currentStatus={bookStatuses[book.id]}
-                                    onStatusChange={handleStatusChange}
-                                />
-                            ))}
-                        </div>
+                // SE ESTIVER VAZIA, renderiza o container de página vazia
+                <div className="listagem-container-vazio">
+                    <div className="empty-estante-container">
+                        <p className="no-filter-message">A sua estante está vazia. Vá ao "Catálogo" e marque o status de um livro para o adicionar aqui!</p>
+                        <Link to="/catalogo" className="btn-voltar-home">
+                            Ir para o Catálogo
+                        </Link>
                     </div>
-                ))
+                </div>
+            ) : (
+                // SE TIVER LIVROS, renderiza o layout normal
+                <div className="listagem-container estante-page">
+                    <>
+                        {/* 1. SIDEBAR (À esquerda de tudo) */}
+                        <div className="estante-sidebar">
+                            <div className="sidebar-filters">
+                                {STATUS_FILTERS.map(status => (
+                                    <div
+                                        key={status}
+                                        className={`sidebar-filter-item ${activeFilter === status ? 'active' : ''}`}
+                                        onClick={() => setActiveFilter(status)}
+                                    >
+                                        <span className={`icon ${sidebarStatusMap[status].colorClass}`}>
+                                            {/* Renderiza um span vazio para a bandeira CSS */}
+                                        </span>
+                                        <span className="text">{status}</span>
+                                        <span className="count">{filterCounts[status]}</span>
+                                    </div>
+                                ))}
+                                
+                                <hr className="sidebar-divider" />
+                                
+                                {ACTION_FILTERS.map(action => (
+                                    <div
+                                        key={action}
+                                        className={`sidebar-filter-item ${activeFilter === action ? 'active' : ''}`}
+                                        onClick={() => setActiveFilter(action)}
+                                    >
+                                        <span className={`icon ${sidebarStatusMap[action].colorClass}`}>
+                                          {sidebarStatusMap[action].icon}
+                                        </span>
+                                        <span className="text">{action}</span>
+                                        <span className="count">{filterCounts[action]}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* 2. COLUNA PRINCIPAL (À direita) */}
+                        <div className="estante-main-column">
+
+                            <div className="page-header">
+                                <h2 className="section-title">Minha Estante</h2>
+                                <p className="section-subtitle">Organize, filtre e gerencie todos os seus livros em um só lugar.</p>
+                            </div>
+                            <div className="estante-top-bar">
+                                <div className="category-filters">
+                                    <button className="category-btn active">
+                                        📘 Livros
+                                    </button>
+                                    <button className="category-btn">
+                                        🖼️ Quadrinhos
+                                    </button>
+                                    <button className="category-btn">
+                                        📖 Revistas
+                                    </button>
+                                </div>
+                                <div className="search-bar">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="search-icon-svg">
+                                        <circle cx="11" cy="11" r="8"></circle>
+                                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                    </svg>
+                                    <input
+                                        type="text"
+                                        placeholder="Pesquise na sua estante..."
+                                        value={searchTerm}
+                                        onChange={(e) => setSearchTerm(e.target.value)}
+                                    />
+                                </div>
+                            </div>
+                            
+                            <hr className="estante-divider" />
+
+                            <div className="estante-grid-area">
+                                <p className="results-summary">
+                                    {finalBooksToShow.length} {finalBooksToShow.length === 1 ? 'livro encontrado' : 'livros encontrados'}
+                                </p>
+
+                                <div className="listagem-grid">
+                                    {finalBooksToShow.map(book => (
+                                        <BookCard
+                                            key={book.id}
+                                            book={book}
+                                            currentStatus={book.status} 
+                                            onStatusChange={handleStatusChange}
+                                            onRemoveBook={handleRemoveBook} 
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </>
+                </div>
             )}
-        </div>
+            
+            {/* --- FIM DA MUDANÇA --- */}
+
+            <footer className="footer">
+                <p>&copy; 2025 Clube do Livro. Todos os direitos reservados.</p>
+            </footer>
+
+        </div> 
     );
 }

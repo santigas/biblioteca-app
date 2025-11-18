@@ -7,12 +7,10 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
 }
 
-
 .header-logo h1 {
   margin: 0; 
   font-size: 1.5em; 
 }
-
 
 .header-nav ul {
   list-style: none; 
@@ -25,7 +23,8 @@
   margin-left: 20px; 
 }
 
-/* MUDANÇA: Agrupámos .header-logo a aqui */
+/* --- MUDANÇA 1 --- */
+/* Regra de base (sem 'display: flex') */
 .header-nav a,
 .header-logo a {
   color: white; 
@@ -34,11 +33,38 @@
   transition: color 0.3s ease; 
 }
 
-.header-nav a:hover,
-.header-logo a:hover {
-  color: #00a676; 
+/* Regra de layout SÓ para a logo */
+.header-logo a {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Espaço entre a logo e o texto "Shelf" */
 }
 
+/* --- MUDANÇA 2 --- */
+/* A regra de hover agora SÓ se aplica ao .header-nav */
+.header-nav a:hover {
+  color: #00a676; 
+}
+/* .header-logo a:hover foi REMOVIDO */
+
+
+/* -------------------------------------- */
+/* --- ESTILOS DO LOGO SVG --- */
+/* -------------------------------------- */
+.header-logo-svg {
+  flex-shrink: 0; 
+}
+
+/* --- MUDANÇA 3 --- */
+.header-logo-svg .logo-book {
+  fill: none; 
+  stroke: white; /* Cor Fixo: Branca (não 'currentColor') */
+}
+
+.header-logo-svg .logo-bookmark {
+  fill: #FBBF24; 
+  stroke: #FBBF24;
+}
 
 @media (max-width: 600px) {
   .simple-header {
